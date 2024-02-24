@@ -17,6 +17,7 @@ export function registerRouters(
         let instance = Intern.get(req.params.id);
         let params = req.body;
         params.instanceId = req.params.id;
+        params.params = req.params;
         let result = await routerConfig.handler(instance, params);
         res.json({ status: "success", data: result });
       } catch (e: any) {

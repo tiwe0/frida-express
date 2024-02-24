@@ -67,7 +67,7 @@ export class Session extends Intern {
       }
     );
     if (data.status === "success") {
-      let script = new Script(data.data);
+      let script = new Script(source, data.data);
       return script;
     } else {
       throw `Session.createScript failed: ${data.reason}`;

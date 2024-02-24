@@ -1,3 +1,9 @@
 const m = Process.enumerateModules()[0];
-console.log(JSON.stringify(m));
-send(JSON.stringify(m))
+send(m)
+
+rpc.exports = {
+    forTest(i) {
+        send({ value: i })
+        return i*i
+    }
+}

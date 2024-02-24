@@ -84,6 +84,23 @@ var scriptRouterConfigs: routerConfig[] = [
       return "connected";
     },
   },
+  {
+    path: "/:id/rpc/m/:methodName",
+    async handler(instance: ScriptProxy, params) {
+      let methodName = params.params.methodName
+      let argumentsList = params.args
+      let result = await instance.script.exports[methodName](...argumentsList)
+      return result
+    }
+  },
+  {
+    path: "/:id/rpc/p/:propertyName",
+    async handler(instance: ScriptProxy, params) {
+      let propertyName = params.params.propertyName
+      let value = instance.script.exports[propertyName]
+      return value
+    }
+  }
 ];
 
 registerRouters(router, scriptRouterConfigs);

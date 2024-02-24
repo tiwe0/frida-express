@@ -1,13 +1,8 @@
 import { Cancellable, EnableDebuggerOptions } from "frida";
 import { Intern } from "./interns";
 import { RawData, WebSocket } from "ws";
+import { getRPCExportsFunctions } from "./helper";
 import { Config } from "./config";
-
-export class RPCProxy extends Intern {
-  constructor(params: any = {}) {
-    super(params);
-  }
-}
 
 export class IOProxy extends Intern {
   public ws: WebSocket;
@@ -52,13 +47,31 @@ export class IOProxy extends Intern {
 export class Script extends Intern {
   impl: any;
   message: IOProxy;
-  rpc: RPCProxy;
+  rpc: any;
 
-  constructor(params: any = {}) {
+  constructor(source: string, params: any = {}) {
     super(params);
     this.impl = params.impl;
     this.message = new IOProxy(params);
-    this.rpc = new RPCProxy(params);
+    this.rpc = Script.genRPCProxy(this, source);
+  }
+
+  public static genRPCProxy(instance: Script, source: string) {
+    let rpcExportFunctions: string[] = getRPCExportsFunctions(source);
+    let proxy: { [key: string]: any } = {};
+    for (let rpcExportFunctionName of rpcExportFunctions) {
+      proxy[rpcExportFunctionName] = async (...args: any[]) => {
+        let rpcUrl = `http://localhost:3000/Script/${instance.internId}/rpc/m/${rpcExportFunctionName}`;
+        let result = await Config.fetch(rpcUrl, {args: args});
+        if (result.status === "success") {
+          return result.data;
+        } else {
+          throw `RPC call failed: ${result.reason}`;
+        }
+      };
+      console.log(`rpc.exports.${rpcExportFunctionName} added.`)
+    }
+    return proxy;
   }
 
   async load(cancellable?: Cancellable) {
