@@ -26,7 +26,7 @@ This project contains both front-end and back-end, and as the name suggests, the
     Uuid is used internally to track instances for garbage collection, cross-process synchronization and other operations.
     Websocket is used to implement the send function and the rpc call of script.exports.
 
-```dot
+![arch](https://g.gravizo.com/svg?
 digraph {
     subgraph cluster_local {
         label = "local";
@@ -66,8 +66,7 @@ digraph {
     "frida-express-be":sw -> "frida-server":nw [label=real] [dir=both];
 
     "frida-express-fe":e -> "frida-server": e [label="what you\nfeel like", dir=both style=dashed] ;
-}
-```
+})
 
 ## install
 
