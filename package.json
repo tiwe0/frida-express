@@ -1,12 +1,12 @@
 {
-  "name": "fridbg-fe",
-  "version": "0.3.0",
+  "name": "frida-express",
+  "version": "0.4.0",
   "description": "frida adapter project for fridbg",
-  "main": "index.js",
+  "main": "./dist",
   "scripts": {
     "build": "tsc",
-    "test": "yarn run build && node ./dist/test/fe/test_fe.js",
-    "be": "yarn run build && node ./dist/be/index.js"
+    "test": "tsc && node ./dist/test/fe/test_fe.js",
+    "be": "tsc build && node ./dist/be/index.js"
   },
   "author": "Ivy",
   "license": "MIT",
