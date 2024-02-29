@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "tsc && node ./dist/test/fe/test_fe.js",
-    "be": "tsc build && node ./dist/be/index.js"
+    "be": "tsc && node ./dist/be/index.js"
   },
   "author": "Ivy",
   "license": "MIT",
@@ -18,6 +18,7 @@
     "@types/uuid": "^9.0.8",
     "@types/ws": "^8.5.10",
     "axios": "^1.6.7",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "frida": "^16.1.11",
     "get-port": "^7.0.0",
@@ -33,6 +34,7 @@
     "@babel/plugin-proposal-decorators": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-typescript": "^7.23.3",
+    "@types/cors": "^2.8.17",
     "@types/node": "^20.11.20"
   }
 }
